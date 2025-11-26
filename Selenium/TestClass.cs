@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace Selenium
 {
@@ -12,26 +9,34 @@ namespace Selenium
     {
         static void Main(string[] args)
         {
-
             IWebDriver driver = new ChromeDriver();
 
-            driver.Navigate().GoToUrl("https://app.cloudqa.io/home/AutomationPracticeForm");
+            try
+            {
+                driver.Navigate().GoToUrl("https://app.cloudqa.io/home/AutomationPracticeForm");
+                driver.Manage().Window.Maximize();
 
-            driver.Manage().Window.Maximize();
+                IWebElement fnameInput = driver.FindElement(By.XPath("//label[contains(text(), 'First Name')]/following::input[1]"));
+                fnameInput.SendKeys("Sachin");
 
-            IWebElement fnameInput = driver.FindElement(By.Name("First Name"));
-            fnameInput.SendKeys("Sachin");
+                IWebElement lnameInput = driver.FindElement(By.XPath("//label[contains(text(), 'Last Name')]/following::input[1]"));
+                lnameInput.SendKeys("K");
 
-            IWebElement lnameInput = driver.FindElement(By.Name("Last Name"));
-            lnameInput.SendKeys("K");
+                IWebElement emailInput = driver.FindElement(By.XPath("//label[contains(text(), 'Email')]/following::input[1]"));
+                emailInput.SendKeys("sachin9820246@gmail.com");
 
-            IWebElement emailInput = driver.FindElement(By.Name("Email"));
-            emailInput.SendKeys("sachin9820246@gmail.com");
-            emailInput.Submit();
+                emailInput.Submit();
 
-            System.Threading.Thread.Sleep(5000);
-            driver.Quit();
-
+                System.Threading.Thread.Sleep(5000);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Test Failed: " + e.Message);
+            }
+            finally
+            {
+                //driver.Quit();
+            }
         }
     }
 }
